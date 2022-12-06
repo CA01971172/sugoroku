@@ -85,7 +85,7 @@ const spaceConfig={//マスの設定
         },
         {
             event:"move",
-            property:-3
+            property:-4
         }
     ]
 }
