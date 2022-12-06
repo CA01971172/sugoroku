@@ -46,9 +46,9 @@ function sleep(waitSec){
         setTimeout(function() { resolve() }, waitSec);
     });
 }
-const spaceConfig={
-    spaceLength:30,//マスの量
-    eventDistance:3,//〇マスごとにイベントをランダムで作成する
+const spaceConfig={//マスの設定
+    spaceLength:10,//マスの量
+    eventDistance:1,//〇マスごとにイベントをランダムで作成する
     eventProbability:0.7,//〇%でイベントを作成する
     eventList:[//イベントIDのリスト
         {
@@ -335,12 +335,12 @@ async function happenEvent(piece,array,index){//イベントを起こす関数
 async function pieceMove(piece,array,movement){
     alert(space.elements[piece.index].textContent)
     await piece.translate((piece.index)+(movement))//コマを移動させる
-    happenEvent(piece,array,piece.index)
+    await happenEvent(piece,array,piece.index)
 }
 async function isGameEnd(classArray,goalIndex){//コマの中の誰か一人でもゴールに到達していたらtrueを返す関数
     let result=false
     for(let i in classArray){
-        if(classArray[i]>=goalIndex){
+        if(classArray[i].index>=goalIndex){
             result=true
         }
     }
@@ -357,26 +357,33 @@ async function whoWin(classArray,goalIndex){//誰がゴールしたか調べる�
 }
 const spaces=createSpaceList(spaceConfig.spaceLength)//マスのリスト
 async function runGame(){//ゲームを起動する関数
-    while((await isGameEnd(pieces,space.number-1))===false){
+    gameLoop:while(true){
         for(let i in pieces){
             alert(`プレイヤー${i}の番です。`)
             await WaitForClick()
             const movement=await diceRoll()
             await pieces[i].translate((pieces[i].index)+movement)//コマを移動させる
             await happenEvent(pieces[i],spaces,pieces[i].index)
+            if(await isGameEnd(pieces,space.number-1)){break gameLoop}
+            console.log(await isGameEnd(pieces,space.number-1))
         }
     }
     alert(`プレイヤー${await whoWin(pieces,space.number-1)}がゴールしました。`)
 }
+async function onloadEvent(){
+    createSpaceElement(spaces)//マスを作成する
+    updateHtml()
+    window.addEventListener("resize",updateHtml)//リサイズ時にfix処理を適用する
+}
 
 /* ここから実際の処理 */
-
-createSpaceElement(spaces)//マスを作成する
-updateHtml()
-window.addEventListener("resize",updateHtml)//リサイズ時にfix処理を適用する
-
+async function main(){
+    await onloadEvent()
+    await WaitForClick()
+    await runGame()
+}
 window.onload=(event)=>{
-    runGame()
+    main()
 }
 
 
