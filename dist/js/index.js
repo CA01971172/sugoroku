@@ -205,6 +205,7 @@ class Piece{//すごろくで使うコマ
 const pieces=[//プレイヤーが使うコマを格納するクラス配列
     new Piece(0,10,"#00FFFF"),
     new Piece(0,10,"#FF00FF"),
+    new Piece(0,10,"#FFFF00"),
 ]
 
 /* HTMLを更新する関数達 */
@@ -302,6 +303,7 @@ async function diceRoll(){//ダイスを振る関数
 
     dice.style.display="none"
     animateDice.style.display="block"
+    diceIndex=Math.floor(Math.random() * diceImages.length)
     timerId=setInterval(()=>{ 
         diceIndex=Math.floor(Math.random() * diceImages.length)
         dice.src=diceImages[diceIndex]
