@@ -377,6 +377,7 @@ async function runGame(){//ゲームを起動する関数
 
 
 /* ここから実際の処理 */
+document.getElementById("favicon").href=diceImages[Math.floor(Math.random()*diceImages.length)]//ファビコンをランダムに設定する
 async function main(){//ウィンドウが読み込まれたときの処理
     await createGameMap()
     await WaitForClick()
