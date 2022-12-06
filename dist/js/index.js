@@ -304,6 +304,7 @@ async function diceRoll(){//ダイスを振る関数
     dice.style.display="none"
     animateDice.style.display="block"
     diceIndex=Math.floor(Math.random() * diceImages.length)
+    dice.src=diceImages[diceIndex]
     timerId=setInterval(()=>{ 
         diceIndex=Math.floor(Math.random() * diceImages.length)
         dice.src=diceImages[diceIndex]
