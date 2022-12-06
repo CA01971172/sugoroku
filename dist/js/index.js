@@ -332,7 +332,7 @@ async function happenEvent(piece,array,index){//イベントを起こす関数
             break
     }
 }
-async function pieceMove(piece,array,movement){
+async function pieceMove(piece,array,movement){//コマを移動させる効果のマスの処理
     alert(space.elements[piece.index].textContent)
     await piece.translate((piece.index)+(movement))//コマを移動させる
     await happenEvent(piece,array,piece.index)
@@ -349,13 +349,18 @@ async function isGameEnd(classArray,goalIndex){//コマの中の誰か一人で�
 async function whoWin(classArray,goalIndex){//誰がゴールしたか調べる関数
     let result=new Array
     for(let i in classArray){
-        if(classArray[i]>=goalIndex){
+        if(classArray[i].index>=goalIndex){
             result.push(i)
         }
     }
     return result.join()
 }
 const spaces=createSpaceList(spaceConfig.spaceLength)//マスのリスト
+async function createGameMap(){//ゲームマップを作成する関数
+    createSpaceElement(spaces)//マスを作成する
+    updateHtml()
+    window.addEventListener("resize",updateHtml)//リサイズ時にfix処理を適用する
+}
 async function runGame(){//ゲームを起動する関数
     gameLoop:while(true){
         for(let i in pieces){
@@ -365,20 +370,15 @@ async function runGame(){//ゲームを起動する関数
             await pieces[i].translate((pieces[i].index)+movement)//コマを移動させる
             await happenEvent(pieces[i],spaces,pieces[i].index)
             if(await isGameEnd(pieces,space.number-1)){break gameLoop}
-            console.log(await isGameEnd(pieces,space.number-1))
         }
     }
     alert(`プレイヤー${await whoWin(pieces,space.number-1)}がゴールしました。`)
 }
-async function onloadEvent(){
-    createSpaceElement(spaces)//マスを作成する
-    updateHtml()
-    window.addEventListener("resize",updateHtml)//リサイズ時にfix処理を適用する
-}
+
 
 /* ここから実際の処理 */
-async function main(){
-    await onloadEvent()
+async function main(){//ウィンドウが読み込まれたときの処理
+    await createGameMap()
     await WaitForClick()
     await runGame()
 }
