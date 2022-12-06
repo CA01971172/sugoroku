@@ -47,8 +47,8 @@ function sleep(waitSec){
     });
 }
 const spaceConfig={//マスの設定
-    spaceLength:10,//マスの量
-    eventDistance:1,//〇マスごとにイベントをランダムで作成する
+    spaceLength:30,//マスの量
+    eventDistance:3,//〇マスごとにイベントをランダムで作成する
     eventProbability:0.7,//〇%でイベントを作成する
     eventList:[//イベントIDのリスト
         {
