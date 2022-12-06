@@ -1,0 +1,45 @@
+html{
+    user-select: none;
+    font-size: 16px;
+}
+#main{
+    position: relative;
+    z-index: 1;
+/*     border:solid 1px red; */
+}
+#myCanvas{
+    position: absolute;
+    z-index: 2;
+/*     border:dashed 1px blue; */
+}
+
+#main > div{
+    width: 150px;
+    height: 100px;
+    padding: 10px;
+    border:solid 1px black;
+    font-size: 1rem;
+    word-wrap: break-word;
+    overflow-y: auto;
+    text-align:center;
+}
+
+/* clearFix */
+.clearFix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.clearFix:before {
+	content: "";
+	display: block;
+	clear: both;
+}
+.clearFix {
+	display: block;
+}
+
+/*スクロールバー非表示（Chrome・Safari）*/
+html::-webkit-scrollbar{
+    display:none;
+}
